@@ -9,7 +9,7 @@ use yii\web\AssetBundle;
  * @author  zhangmoxuan <1104984259@qq.com>
  * @link  http://www.zhangmoxuan.com
  * @QQ  1104984259
- * @Date  2017/7/14
+ * @Date  2017/12/23
  */
 class UEditorAsset extends AssetBundle
 {
@@ -19,10 +19,10 @@ class UEditorAsset extends AssetBundle
 
     public $js = [
         'ueditor.config.js',
-        'ueditor.all.min.js',
+        'ueditor.all.min.js'
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        'yii\web\JqueryAsset'
     ];
 }

@@ -23,59 +23,52 @@ composer require moxuandi/yii2-ueditor:"dev-master"
 
 使用:
 -----
-
 在`Controller`中添加:
 ```php
 public function actions()
 {
     return [
         'UeUpload' => [
-            'class' => 'moxuandi\ueditor\UEditorAction',
-            //可选参数, 参考 config.php
+            'class' => 'moxuandi\ueditor\UEditorUpload',
+            // 可选参数, 参考 config.php
             'config' => [
-                'thumbWidth' => 150,	// 缩略图宽度
-                'thumbHeight' => 100,	// 缩略图高度
-                'saveDatabase'=> true,  // 保存上传信息到数据库
-                    // 使用前请导入'database'文件夹中的数据表'upload'和模型类'Upload'
+                'imageMaxSize' => 1*1024*1024,
+                'imageAllowFiles' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+                'imagePathFormat' => '/uploads/image/{yyyy}{mm}/{yy}{mm}{dd}_{hh}{ii}{ss}_{rand:4}',
+                'thumbStatus' => false,
+                'thumbWidth' => 300,
+                'thumbHeight' => 200,
+                'thumbMode' => 'outbound',
             ],
-        ]
+        ],
     ];
 }
 ```
 
 在`View`中添加:
 ```php
-1. 简单调用:
+// 1. 简单调用(基于模型):
 $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor');
 
-2. 带参数调用:
-$form->field($model, 'content')->widget('moxuandi\ueditor\UEditor', [
-    'clientOptions' => [
-        //编辑区域的大小
-        'initialFrameWidth' => '920',
-        'initialFrameHeight' => 400,
-        //定制菜单
-        'toolbars' => [
-            [
-                'fullscreen', 'source', 'undo', 'redo', '|',
-                'fontsize',
-                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat',
-                'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-                'forecolor', 'backcolor', '|',
-                'lineheight', '|',
-                'indent', '|'
-            ],
-        ],
+// 2. 带参数调用(此模式下仅`$editorOptions`参数可用):
+$form->field($model, 'content')->widget('moxuandi\ueditor\UEditor',[
+    'editorOptions' => [
+        'initialFrameWidth' => 1000,
+        'initialFrameHeight' => 500,
     ],
 ]);
 
-3. 不带 $model 调用:
+// 3. 不带`$model`调用(已列出所有可用参数, 可适当忽略):
 \moxuandi\ueditor\UEditor::widget([
+    'id' => 'editor',
     'attribute' => 'content',
-    'clientOptions' => [
-        'initialFrameWidth' => '920',
-    ]
+    //'name' => 'content',
+    'value' => '初始化编辑器时的内容',
+    'editorOptions' => [
+        'initialFrameWidth' => 1000,
+        'initialFrameHeight' => 500,
+    ],
 ]);
 ```
 
-编辑器相关配置，请在`view`中配置，参数为`clientOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)
+编辑器相关配置，请在`view`中配置，参数为`editorOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)

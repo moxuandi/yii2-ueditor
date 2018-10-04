@@ -1,0 +1,22 @@
+{
+    "name": "moxuandi/yii2-ueditor",
+    "description": "UEditor 是一套开源的在线HTML编辑器，主要用于让用户在网站上获得所见即所得编辑效果，开发人员可以用 UEditor 把传统的多行文本输入框(textarea)替换为可视化的富文本输入框。",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","UEditor","Editor","javascript 编辑器","百度编辑器","百度 Editor","html 编辑器","富文本编辑器","在线编辑器"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "moxuandi",
+            "email": "1104984259@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.6",
+        "moxuandi/yii2-helpers": "~0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "moxuandi\\ueditor\\": ""
+        }
+    }
+}

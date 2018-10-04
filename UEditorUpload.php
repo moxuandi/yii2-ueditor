@@ -3,6 +3,7 @@ namespace moxuandi\ueditor;
 
 use Yii;
 use yii\base\Action;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use moxuandi\helpers\Helper;
 use moxuandi\helpers\Uploader;
@@ -118,6 +119,8 @@ class UEditorUpload extends Action
                 $fieldName = $this->config['fileFieldName'];
                 break;
         }
+
+        $config['rootPath'] = ArrayHelper::getValue($this->config, 'rootPath', dirname(Yii::$app->request->scriptFile));
 
         // 生成上传实例对象并完成上传, 返回结果数据
         $upload = new Uploader($fieldName, $config, $base64);

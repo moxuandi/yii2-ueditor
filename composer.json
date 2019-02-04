@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "~2.0.6",
-        "moxuandi/yii2-helpers": "~0.1"
+        "yiisoft/yii2": "~2.0.16",
+        "moxuandi/yii2-helpers": "dev-master"
     },
     "autoload": {
         "psr-4": {

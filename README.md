@@ -31,11 +31,21 @@ public function actions()
     return [
         'UeUpload' => [
             'class' => 'moxuandi\ueditor\UploaderAction',
-            //可选参数, 参考 config.php
+            // 可选参数, 参考 config.php
             'config' => [
                 'thumbStatus' => true,  // 生成缩略图
                 'thumbWidth' => 150,	// 缩略图宽度
                 'thumbHeight' => 100,	// 缩略图高度
+
+                // 如果`uploads`目录与当前应用的入口文件不在同一个目录, 必须做如下配置:
+                'rootPath' => dirname(dirname(dirname(Yii::$app->request->scriptFile))),
+                'rootUrl' => 'http://image.advanced.ccc',
+                'imageUrlPrefix' => 'http://image.advanced.ccc',
+                'scrawlUrlPrefix' => 'http://image.advanced.ccc',
+                'videoUrlPrefix' => 'http://image.advanced.ccc',
+                'fileUrlPrefix' => 'http://image.advanced.ccc',
+                'imageManagerUrlPrefix' => 'http://image.advanced.ccc',
+                'fileManagerUrlPrefix' => 'http://image.advanced.ccc',
             ],
         ]
     ];

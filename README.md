@@ -8,7 +8,7 @@ UEditor 使用 JavaScript 编写，本扩展已完美实现与 Yii2 的兼容开
 使用 [composer](http://getcomposer.org/download/) 下载:
 ```
 # 2.x(yii >= 2.0.16):
-composer require moxuandi/yii2-ueditor:"~2.0"
+composer require moxuandi/yii2-ueditor:"~2.0.0"
 
 # 1.x(非重要Bug, 不再更新):
 composer require moxuandi/yii2-ueditor:"~1.0"
@@ -30,13 +30,12 @@ public function actions()
 {
     return [
         'UeUpload' => [
-            'class' => 'moxuandi\ueditor\UEditorAction',
+            'class' => 'moxuandi\ueditor\UploaderAction',
             //可选参数, 参考 config.php
             'config' => [
+                'thumbStatus' => true,  // 生成缩略图
                 'thumbWidth' => 150,	// 缩略图宽度
                 'thumbHeight' => 100,	// 缩略图高度
-                'saveDatabase'=> true,  // 保存上传信息到数据库
-                    // 使用前请导入'database'文件夹中的数据表'upload'和模型类'Upload'
             ],
         ]
     ];
@@ -50,32 +49,30 @@ $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor');
 
 2. 带参数调用:
 $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor', [
-    'clientOptions' => [
+    'editorOptions' => [
         //编辑区域的大小
-        'initialFrameWidth' => '920',
+        'initialFrameWidth' => '100%',
         'initialFrameHeight' => 400,
         //定制菜单
-        'toolbars' => [
-            [
-                'fullscreen', 'source', 'undo', 'redo', '|',
-                'fontsize',
-                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat',
-                'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-                'forecolor', 'backcolor', '|',
-                'lineheight', '|',
-                'indent', '|'
-            ],
-        ],
+        'toolbars' => [[
+            'fullscreen', 'source', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'removeformat', 'formatmatch', 'pasteplain', '|',
+            'paragraph', 'fontfamily', 'fontsize', 'forecolor', 'lineheight', 'insertorderedlist', 'insertunorderedlist', '|',
+            'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
+            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'attachment', 'map', 'link', 'unlink', 'anchor', 'spechars', 'insertcode'
+        ]],
     ],
 ]);
 
 3. 不带 $model 调用:
 \moxuandi\ueditor\UEditor::widget([
-    'attribute' => 'content',
-    'clientOptions' => [
-        'initialFrameWidth' => '920',
+    'name' => 'content',
+    'value' => '初始值',
+    'editorOptions' => [
+        'initialFrameWidth' => '100%',
+        'initialFrameHeight' => 400,
     ]
 ]);
 ```
 
-编辑器相关配置，请在`view`中配置，参数为`clientOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)
+编辑器相关配置，请在视图`view`中配置，参数为`editorOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)

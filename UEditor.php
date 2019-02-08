@@ -44,11 +44,7 @@ class UEditor extends InputWidget
     public function run()
     {
         self::registerScript();
-        if($this->hasModel()){
-            return Html::activeTextarea($this->model, $this->attribute, $this->options);
-        }else{
-            return Html::textarea($this->name, $this->value, $this->options);
-        }
+        return $this->hasModel() ? Html::activeTextarea($this->model, $this->attribute, $this->options) : Html::textarea($this->name, $this->value, $this->options);
     }
 
     /**

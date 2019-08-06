@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Action;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\Response;
 use moxuandi\helpers\Uploader;
 
 /**
@@ -32,8 +33,8 @@ class UploaderAction extends Action
     }
 
     /**
-     * @throws \yii\base\ErrorException
-     * @throws \yii\base\Exception
+     * @throws yii\base\ErrorException
+     * @throws yii\base\Exception
      */
     public function run()
     {
@@ -51,10 +52,10 @@ class UploaderAction extends Action
                 // 文件在线管理器
             case 'listfile': $result = self::actionList(); break;
             // 配置参数
-            case 'config': $result = Json::encode($this->config); break;
+            case 'config': $result = $this->config; break;
             // 抓取远程图片
             //case 'catchimage': $result = []; break;
-            default: $result = Json::encode(['state'=>'请求地址出错']); break;
+            default: $result = ['state'=>'请求地址出错']; break;
         }
 
         // 输出结果
@@ -64,17 +65,20 @@ class UploaderAction extends Action
             }else{
                 echo Json::encode(['state'=>'callback 参数不合法']);
             }
+            exit();
         }else{
-            echo $result;
+            $response = Yii::$app->response;
+            $response->format = Response::FORMAT_JSON;
+            $response->data = $result;
+            $response->send();
         }
-        exit();
     }
 
     /**
      * 处理上传
-     * @return string
-     * @throws \yii\base\ErrorException
-     * @throws \yii\base\Exception
+     * @return array
+     * @throws yii\base\ErrorException
+     * @throws yii\base\Exception
      */
     private function actionUpload()
     {
@@ -129,19 +133,19 @@ class UploaderAction extends Action
 
         // 生成上传实例对象并完成上传, 返回结果数据
         $upload = new Uploader($fieldName, $config, $base64);
-        return Json::encode([
+        return [
             'original' => $upload->realName,  // 原始文件名, eg: 'img_6.jpg'
             'title' => $upload->fileName,      // 新文件名, eg: '171210_054500_8166.jpg'
             'url' => $upload->fullName,  // 返回的地址, eg: '/uploads/image/201712/171210_054500_8166.jpg'
             'size' => $upload->fileSize,       // 文件大小, eg: 108527
             'type' => '.' . $upload->fileExt,  // 文件类型, eg: '.jpg'
             'state' => $upload->stateInfo,     // 上传状态, 上传成功时必须返回'SUCCESS'
-        ]);
+        ];
     }
 
     /**
      * 图片/文件在线管理器
-     * @return string
+     * @return array
      */
     private function actionList()
     {
@@ -178,7 +182,7 @@ class UploaderAction extends Action
         $files = self::getFiles($path, $rootPath, $allowFiles);
         $length = count($files);  // 文件总数
         if($length === 0){  // 如果没有文件
-            return Json::encode(['state' => '没有匹配的文件', 'list' => [], 'start' => $start, 'total' => $length]);  // 'state' => 'no match file'
+            return ['state' => '没有匹配的文件', 'list' => [], 'start' => $start, 'total' => $length];  // 'state' => 'no match file'
         }
 
         // 获取指定范围的文件列表
@@ -189,7 +193,7 @@ class UploaderAction extends Action
         }
 
         // 返回数据
-        return Json::encode(['state' => 'SUCCESS', 'list' => $list, 'start' => $start, 'total' => $length]);
+        return ['state' => 'SUCCESS', 'list' => $list, 'start' => $start, 'total' => $length];
     }
 
     /**

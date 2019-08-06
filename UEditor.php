@@ -31,7 +31,7 @@ class UEditor extends InputWidget
         $this->hasModel() ? $this->id = $this->options['id'] : $this->id = $this->options['id'] = $this->id . '_' . $this->name;
         $this->editorOptions = array_merge([
             'serverUrl' => Url::to(['UeUpload']),
-            'initialFrameWidth' => 1000,
+            'initialFrameWidth' => '100%',
             'initialFrameHeight' => 320,
             'lang' => strtolower(Yii::$app->language) == 'en-us' ? 'en' : 'zh-cn'
         ], $this->editorOptions);

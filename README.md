@@ -92,21 +92,59 @@ $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor', [
 ```php
 'config' => [
     // 缩略图
-    'thumb' => ['width' => 100],
+    'thumb' => [
+        'width' => 300,
+        'height' => 200,
+        //'mode' => 'outbound',  // 'inset'(补白), 'outbound'(裁剪, 默认值)
+        //'match' => ['image', 'thumb'],
+    ],
 
     // 裁剪图像
-    'crop' => ['width' => 100],
+    'crop' => [
+        'width' => 300,
+        'height' => 200,
+        //'top' => 0,
+        //'left' => 0,
+        //'match' => ['image', 'crop'],
+    ],
 
     // 添加边框
-    'frame' => ['margin' => 20],
+    'frame' => [
+        'margin' => 20,
+        //'color' => '666',
+        //'alpha' => 100,
+        //'match' => ['image', 'frame'],
+    ],
 
     // 添加图片水印
-    'watermark' => ['watermarkImage' => 'water.png'],
+    'watermark' => [
+        'watermarkImage' => '@web/uploads/watermark.png',
+        //'top' => 0,
+        //'left' => 0,
+        //'match' => ['image', 'watermark'],
+    ],
 
     // 添加文字水印
-    'text' => ['text' => '水印文字'],
+    'text' => [
+        'text' => '水印文字',
+        'fontFile' => '@web/uploads/simhei.ttf',  // 字体文件的位置
+        /*'fontOptions' => [
+            'size' => 12,
+            'color' => 'fff',
+            'angle' => 0,
+        ],*/
+        //'top' => 0,
+        //'left' => 0,
+        //'match' => ['image', 'text'],
+    ],
 
     // 调整图片大小
-    'resize' => ['width' => 100],
+    'resize' => [
+        'width' => 300,
+        'height' => 200,
+        //'keepAspectRatio' => true,  // 是否保持图片纵横比
+        //'allowUpscaling' => false,  // 如果原图很小, 图片是否放大
+        //'match' => ['image', 'resize'],
+    ],
 ],
 ```

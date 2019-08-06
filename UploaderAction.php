@@ -2,6 +2,8 @@
 namespace moxuandi\ueditor;
 
 use Yii;
+use yii\base\ErrorException;
+use yii\base\Exception;
 use yii\base\Action;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -33,8 +35,8 @@ class UploaderAction extends Action
     }
 
     /**
-     * @throws yii\base\ErrorException
-     * @throws yii\base\Exception
+     * @throws ErrorException
+     * @throws Exception
      */
     public function run()
     {
@@ -77,8 +79,8 @@ class UploaderAction extends Action
     /**
      * 处理上传
      * @return array
-     * @throws yii\base\ErrorException
-     * @throws yii\base\Exception
+     * @throws ErrorException
+     * @throws Exception
      */
     private function actionUpload()
     {
@@ -90,10 +92,12 @@ class UploaderAction extends Action
                     'pathFormat' => $this->config['imagePathFormat'],
                     'maxSize' => $this->config['imageMaxSize'],
                     'allowFiles' => $this->config['imageAllowFiles'],
-                    'thumbStatus' => $this->config['thumbStatus'],
-                    'thumbWidth' => $this->config['thumbWidth'],
-                    'thumbHeight' => $this->config['thumbHeight'],
-                    'thumbMode' => $this->config['thumbMode'],
+                    'thumb' => ArrayHelper::getValue($this->config, 'thumb', false),
+                    'crop' => ArrayHelper::getValue($this->config, 'crop', false),
+                    'frame' => ArrayHelper::getValue($this->config, 'frame', false),
+                    'watermark' => ArrayHelper::getValue($this->config, 'watermark', false),
+                    'text' => ArrayHelper::getValue($this->config, 'text', false),
+                    'resize' => ArrayHelper::getValue($this->config, 'resize', false),
                 ];
                 $fieldName = $this->config['imageFieldName'];
                 break;

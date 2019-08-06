@@ -15,10 +15,6 @@ return [
     'imageCompressBorder' => 1600,  // 图片压缩最长边限制
     'imageInsertAlign' => 'none',  // 插入的图片浮动方式
     'imageUrlPrefix' => '',  // 图片访问路径前缀
-    'thumbStatus' => false,  // 是否生成缩略图
-    'thumbWidth' => 300,  // 缩略图的宽度
-    'thumbHeight' => 200,  // 缩略图的高度
-    'thumbMode' => 'outbound',  // 生成缩略图的模式, 可用值: 'inset'(补白), 'outbound'(裁剪, 默认值).
 
 
     /* 涂鸦图片上传配置项 */

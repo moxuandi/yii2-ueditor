@@ -8,6 +8,7 @@ UEditor 使用 JavaScript 编写，本扩展已完美实现与 Yii2 的兼容开
 使用 [composer](http://getcomposer.org/download/) 下载:
 ```
 # 2.x(yii >= 2.0.16):
+composer require moxuandi/yii2-ueditor:"~2.1.0"
 composer require moxuandi/yii2-ueditor:"~2.0.0"
 
 # 1.x(非重要Bug, 不再更新):
@@ -33,9 +34,9 @@ public function actions()
             'class' => 'moxuandi\ueditor\UploaderAction',
             // 可选参数, 参考 config.php
             'config' => [
-                'thumbStatus' => true,  // 生成缩略图
-                'thumbWidth' => 150,	// 缩略图宽度
-                'thumbHeight' => 100,	// 缩略图高度
+                'imageMaxSize' => 1*1024*1024,  // 上传大小限制, 单位B, 默认1MB, 注意修改服务器的大小限制
+                'imageAllowFiles' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],  // 允许上传的文件类型
+                'imagePathFormat' => '/uploads/image/{yyyy}{mm}{dd}/{hh}{ii}{ss}_{rand:6}',  // 文件保存路径
 
                 // 如果`uploads`目录与当前应用的入口文件不在同一个目录, 必须做如下配置:
                 'rootPath' => dirname(dirname(dirname(Yii::$app->request->scriptFile))),
@@ -86,3 +87,26 @@ $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor', [
 ```
 
 编辑器相关配置，请在视图`view`中配置，参数为`editorOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)
+
+另可配置缩略图,裁剪图,水印等, 对图片做进一步处理; 详细配置请参考[moxuandi\helpers\Uploader](https://github.com/moxuandi/yii2-helpers)
+```php
+'config' => [
+    // 缩略图
+    'thumb' => ['width' => 100],
+
+    // 裁剪图像
+    'crop' => ['width' => 100],
+
+    // 添加边框
+    'frame' => ['margin' => 20],
+
+    // 添加图片水印
+    'watermark' => ['watermarkImage' => 'water.png'],
+
+    // 添加文字水印
+    'text' => ['text' => '水印文字'],
+
+    // 调整图片大小
+    'resize' => ['width' => 100],
+],
+```

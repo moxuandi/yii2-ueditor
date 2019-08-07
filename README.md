@@ -7,6 +7,9 @@ UEditor 使用 JavaScript 编写，本扩展已完美实现与 Yii2 的兼容开
 ------------
 使用 [composer](http://getcomposer.org/download/) 下载:
 ```
+# 2.2.x(yii >= 2.0.24):
+composer require moxuandi/yii2-ueditor:"~2.2.0"
+
 # 2.x(yii >= 2.0.16):
 composer require moxuandi/yii2-ueditor:"~2.1.0"
 composer require moxuandi/yii2-ueditor:"~2.0.0"

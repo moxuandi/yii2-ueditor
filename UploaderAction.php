@@ -92,12 +92,7 @@ class UploaderAction extends Action
                     'pathFormat' => $this->config['imagePathFormat'],
                     'maxSize' => $this->config['imageMaxSize'],
                     'allowFiles' => $this->config['imageAllowFiles'],
-                    'thumb' => ArrayHelper::getValue($this->config, 'thumb', false),
-                    'crop' => ArrayHelper::getValue($this->config, 'crop', false),
-                    'frame' => ArrayHelper::getValue($this->config, 'frame', false),
-                    'watermark' => ArrayHelper::getValue($this->config, 'watermark', false),
-                    'text' => ArrayHelper::getValue($this->config, 'text', false),
-                    'resize' => ArrayHelper::getValue($this->config, 'resize', false),
+                    'process' => ArrayHelper::getValue($this->config, 'process', false),
                 ];
                 $fieldName = $this->config['imageFieldName'];
                 break;

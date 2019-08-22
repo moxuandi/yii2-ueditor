@@ -40,6 +40,48 @@ public function actions()
                 'imageMaxSize' => 1*1024*1024,  // 上传大小限制, 单位B, 默认1MB, 注意修改服务器的大小限制
                 'imageAllowFiles' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],  // 允许上传的文件类型
                 'imagePathFormat' => '/uploads/image/{yyyy}{mm}{dd}/{hh}{ii}{ss}_{rand:6}',  // 文件保存路径
+                'saveDatabase' => false,  // 文件信息是否保存入库
+                'process' => [  // 二维数组, 将按照子数组的顺序对图片进行处理
+                    'match' => ['image', 'process'],  // 图片处理后保存路径的替换规则, 必须是两个元素的数组
+                    'thumb' => [  // 缩略图配置
+                        'width' => 300,  // 缩略图宽度
+                        'height' => 200,  // 缩略图高度
+                        'mode' => 'outbound',  // 生成缩略图的模式, 可用值: 'inset'(补白), 'outbound'(裁剪, 默认值)
+                    ],
+                    'crop' => [  // 裁剪图配置
+                        'width' => 300,  // 裁剪图的宽度
+                        'height' => 200,  // 裁剪图的高度
+                        'top' => 200,  // 裁剪图顶部的偏移, y轴起点, 默认为`0`
+                        'left' => 200,  // 裁剪图左侧的偏移, x轴起点, 默认为`0`
+                    ],
+                    'frame' => [  // 添加边框的配置
+                        'margin' => 20,  // 边框的宽度, 默认为`20`
+                        'color' => '666',  // 边框的颜色, 十六进制颜色编码, 可以不带`#`, 默认为`666`
+                        'alpha' => 100,  // 边框的透明度, 可能仅`png`图片生效, 默认为`100`
+                    ],
+                    'watermark' => [  // 添加图片水印的配置
+                        'watermarkImage' => '/uploads/watermark.png',  // 水印图片的绝对路径
+                        'top' => 100,  // 水印图片的顶部距离原图顶部的偏移, y轴起点, 默认为`0`
+                        'left' => 200,  // 水印图片的左侧距离原图左侧的偏移, x轴起点, 默认为`0`
+                    ],
+                    'text' => [  // 添加文字水印的配置
+                        'text' => 'TONGMENGCMS',  // 水印文字的内容
+                        'fontFile' => '@yii/captcha/SpicyRice.ttf',  // 字体文件, 可以是绝对路径或别名
+                        'top' => 100,  // 水印文字距离原图顶部的偏移, y轴起点, 默认为`0`
+                        'left' => 200,  // 水印文字距离原图左侧的偏移, x轴起点, 默认为`0`
+                        'fontOptions' => [  // 字体属性
+                            'size' => 12,  // 字体的大小, 单位像素(`px`), 默认为`12`
+                            'color' => 'fff',  // 字体的颜色, 十六进制颜色编码, 可以不带`#`, 默认为`fff`
+                            'angle' => 0,  // 写入文本的角度, 默认为`0`
+                        ],
+                    ],
+                    'resize' => [  // 调整图片大小的配置
+                        'width' => 300,  // 图片调整后的宽度
+                        'height' => 200,  // 图片调整后的高度
+                        'keepAspectRatio' => true,  // 是否保持图片纵横比, 默认为`true`
+                        'allowUpscaling' => false,  // 如果原图很小, 图片是否放大, 默认为`false`
+                    ],
+                ],
 
                 // 如果`uploads`目录与当前应用的入口文件不在同一个目录, 必须做如下配置:
                 'rootPath' => dirname(dirname(dirname(Yii::$app->request->scriptFile))),
@@ -90,60 +132,3 @@ $form->field($model, 'content')->widget('moxuandi\ueditor\UEditor', [
 ```
 
 编辑器相关配置，请在视图`view`中配置，参数为`editorOptions`，比如定制菜单，编辑器大小等等，具体参数请查看[Ueditor官网文档](http://fex-team.github.io/ueditor/#start-config)
-
-另可配置缩略图,裁剪图,水印等, 对图片做进一步处理; 详细配置请参考[moxuandi\helpers\Uploader](https://github.com/moxuandi/yii2-helpers)
-```php
-'config' => [
-    'process' => [
-        // 缩略图
-        'thumb' => [
-            'width' => 300,
-            'height' => 200,
-            //'mode' => 'outbound',  // 'inset'(补白), 'outbound'(裁剪, 默认值)
-        ],
-
-        // 裁剪图像
-        'crop' => [
-            'width' => 300,
-            'height' => 200,
-            //'top' => 0,
-            //'left' => 0,
-        ],
-
-        // 添加边框
-        'frame' => [
-            'margin' => 20,
-            //'color' => '666',
-            //'alpha' => 100,
-        ],
-
-        // 添加图片水印
-        'watermark' => [
-            'watermarkImage' => '@web/uploads/watermark.png',
-            //'top' => 0,
-            //'left' => 0,
-        ],
-
-        // 添加文字水印
-        'text' => [
-            'text' => '水印文字',
-            'fontFile' => '@web/uploads/simhei.ttf',  // 字体文件的位置
-            /*'fontOptions' => [
-                'size' => 12,
-                'color' => 'fff',
-                'angle' => 0,
-            ],*/
-            //'top' => 0,
-            //'left' => 0,
-        ],
-
-        // 调整图片大小
-        'resize' => [
-            'width' => 300,
-            'height' => 200,
-            //'keepAspectRatio' => true,  // 是否保持图片纵横比
-            //'allowUpscaling' => false,  // 如果原图很小, 图片是否放大
-        ],
-    ],
-],
-```

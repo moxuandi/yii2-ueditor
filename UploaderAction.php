@@ -2,7 +2,6 @@
 namespace moxuandi\ueditor;
 
 use Yii;
-use yii\base\ErrorException;
 use yii\base\Exception;
 use yii\base\Action;
 use yii\helpers\ArrayHelper;
@@ -35,7 +34,6 @@ class UploaderAction extends Action
     }
 
     /**
-     * @throws ErrorException
      * @throws Exception
      */
     public function run()
@@ -48,11 +46,11 @@ class UploaderAction extends Action
                 // 上传视频
             case 'uploadvideo':
                 // 上传文件
-            case 'uploadfile': $result = self::actionUpload(); break;
+            case 'uploadfile': $result = $this->actionUpload(); break;
             // 图片在线管理器
             case 'listimage':
                 // 文件在线管理器
-            case 'listfile': $result = self::actionList(); break;
+            case 'listfile': $result = $this->actionList(); break;
             // 配置参数
             case 'config': $result = $this->config; break;
             // 抓取远程图片
@@ -79,10 +77,9 @@ class UploaderAction extends Action
     /**
      * 处理上传
      * @return array
-     * @throws ErrorException
      * @throws Exception
      */
-    private function actionUpload()
+    public function actionUpload()
     {
         $base64 = 'upload';
         switch(Yii::$app->request->get('action')){
@@ -134,12 +131,12 @@ class UploaderAction extends Action
         // 生成上传实例对象并完成上传, 返回结果数据
         $upload = new Uploader($fieldName, $config, $base64);
         return [
-            'original' => $upload->realName,  // 原始文件名, eg: 'img_6.jpg'
+            'original' => $upload->realName,   // 原始文件名, eg: 'img_6.jpg'
             'title' => $upload->fileName,      // 新文件名, eg: '171210_054500_8166.jpg'
-            'url' => $upload->fullName,  // 返回的地址, eg: '/uploads/image/201712/171210_054500_8166.jpg'
+            'url' => $upload->fullName,        // 返回的地址, eg: '/uploads/image/201712/171210_054500_8166.jpg'
             'size' => $upload->fileSize,       // 文件大小, eg: 108527
             'type' => '.' . $upload->fileExt,  // 文件类型, eg: '.jpg'
-            'state' => $upload->stateInfo,     // 上传状态, 上传成功时必须返回'SUCCESS'
+            'state' => Uploader::$stateMap[$upload->status],  // 上传状态, 上传成功时必须返回'SUCCESS'
         ];
     }
 
@@ -147,7 +144,7 @@ class UploaderAction extends Action
      * 图片/文件在线管理器
      * @return array
      */
-    private function actionList()
+    public function actionList()
     {
         switch(Yii::$app->request->get('action')){
             // 文件
@@ -179,7 +176,7 @@ class UploaderAction extends Action
         $rootPath = ArrayHelper::getValue($this->config, 'rootPath', dirname(Yii::$app->request->scriptFile));
         //$rootUrl = ArrayHelper::getValue($this->config, 'rootPath', Yii::$app->request->hostInfo);
         $path = $rootPath . $path;
-        $files = self::getFiles($path, $rootPath, $allowFiles);
+        $files = $this->getFiles($path, $rootPath, $allowFiles);
         $length = count($files);  // 文件总数
         if($length === 0){  // 如果没有文件
             return ['state' => '没有匹配的文件', 'list' => [], 'start' => $start, 'total' => $length];  // 'state' => 'no match file'
@@ -204,7 +201,7 @@ class UploaderAction extends Action
      * @param array $files
      * @return array|null
      */
-    protected function getFiles($path, $rootPath, $allowFiles, &$files = [])
+    public function getFiles($path, $rootPath, $allowFiles, &$files = [])
     {
         if(!is_dir($path)) return null;  // 不是目录, 返回 null
 
@@ -218,7 +215,7 @@ class UploaderAction extends Action
                 if(!in_array($file, ['.', '..'])){
                     $path2 = $path . $file;
                     if(is_dir($path2)){
-                        self::getFiles($path2, $rootPath, $allowFiles, $files);
+                        $this->getFiles($path2, $rootPath, $allowFiles, $files);
                     }else{
                         if(preg_match('/\.(' . $allowFiles . ')$/i', $file)){
                             $files[] = [

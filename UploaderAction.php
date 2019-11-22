@@ -126,7 +126,7 @@ class UploaderAction extends Action
 
         $config['rootPath'] = ArrayHelper::getValue($this->config, 'rootPath', dirname(Yii::$app->request->scriptFile));
         $config['rootUrl'] = ArrayHelper::getValue($this->config, 'rootUrl', Yii::$app->request->hostInfo);
-        $config['saveDatabase'] = ArrayHelper::getValue($this->config, 'saveDatabase', false);
+        $config['modelClass'] = ArrayHelper::getValue($this->config, 'modelClass');
 
         // 生成上传实例对象并完成上传, 返回结果数据
         $upload = new Uploader($fieldName, $config, $base64);

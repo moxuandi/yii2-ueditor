@@ -40,7 +40,7 @@ public function actions()
                 'imageMaxSize' => 1*1024*1024,  // 上传大小限制, 单位B, 默认1MB, 注意修改服务器的大小限制
                 'imageAllowFiles' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],  // 允许上传的文件类型
                 'imagePathFormat' => '/uploads/image/{yyyy}{mm}{dd}/{hh}{ii}{ss}_{rand:6}',  // 文件保存路径
-                'saveDatabase' => false,  // 文件信息是否保存入库
+                'modelClass' => 'common\model\Upload',  // 文件信息是否保存入库
                 'process' => [  // 二维数组, 将按照子数组的顺序对图片进行处理
                     'match' => ['image', 'process'],  // 图片处理后保存路径的替换规则, 必须是两个元素的数组
                     'thumb' => [  // 缩略图配置

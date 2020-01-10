@@ -87,7 +87,6 @@ class UploaderAction extends Action
             case 'uploadimage':
                 $config = [
                     'pathFormat' => $this->config['imagePathFormat'],
-                    'maxSize' => $this->config['imageMaxSize'],
                     'allowFiles' => $this->config['imageAllowFiles'],
                     'process' => ArrayHelper::getValue($this->config, 'process', false),
                 ];
@@ -97,7 +96,6 @@ class UploaderAction extends Action
             case 'uploadscrawl':
                 $config = [
                     'pathFormat' => $this->config['scrawlPathFormat'],
-                    'maxSize' => $this->config['scrawlMaxSize'],
                     'realName' => 'scrawl.png'
                 ];
                 $fieldName = $this->config['scrawlFieldName'];
@@ -107,7 +105,6 @@ class UploaderAction extends Action
             case 'uploadvideo':
                 $config = [
                     'pathFormat' => $this->config['videoPathFormat'],
-                    'maxSize' => $this->config['videoMaxSize'],
                     'allowFiles' => $this->config['videoAllowFiles']
                 ];
                 $fieldName = $this->config['videoFieldName'];
@@ -117,7 +114,6 @@ class UploaderAction extends Action
             default:
                 $config = [
                     'pathFormat' => $this->config['filePathFormat'],
-                    'maxSize' => $this->config['fileMaxSize'],
                     'allowFiles' => $this->config['fileAllowFiles']
                 ];
                 $fieldName = $this->config['fileFieldName'];
